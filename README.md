@@ -1,2 +1,3 @@
 # idkit_ip
-该仓库是提供便捷的获取用户当前的公网ip地址，以及通过 ip 地址获取用户地理位置信息等
+
+This package is mainly used to obtain the user's public network IP address for convenient expansion, mainly to obtain two public network addresses, IPv4 and IPv6.
