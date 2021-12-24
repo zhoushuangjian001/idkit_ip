@@ -14,3 +14,8 @@ Mainly obtain the two public network addresses of IPv4 and IPv6:
    ```dart
    Future<String> getIPv6({IPFormat format = IPFormat.text}) -> Future<String>
    ```
+
+## 0.0.2
+
+Support for obtaining the public IP address of the package in the Flutter-Web project.
+At the same time, the static checking of the code is modified.

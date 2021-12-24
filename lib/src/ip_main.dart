@@ -1,5 +1,5 @@
-import 'dart:convert' show utf8;
-import 'dart:io' show HttpClient, HttpClientRequest, HttpClientResponse;
+import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:idkit_ip/src/ip_config.dart';
 
 class IDKitIp {
@@ -24,20 +24,23 @@ class IDKitIp {
   }
 
   /// Make a network request
-  static Future<String> _requestUri(Uri uri) async {
-    Future<String> result = Future<String>.value('0.0.0.0');
+  static Future<String> _requestUri(Uri uri) {
+    final Completer<String> completer = Completer<String>();
     try {
-      final HttpClient httpClient = HttpClient();
-      final HttpClientRequest httpClientRequest = await httpClient.getUrl(uri);
-      final HttpClientResponse httpClientResponse = await httpClientRequest.close();
-      if (httpClientResponse.statusCode == 200) {
-        result = httpClientResponse.transform(utf8.decoder).join();
-      }
+      http.get(uri).then((http.Response result) {
+        if (result.statusCode == 200) {
+          final String ip = result.body;
+          completer.complete(ip);
+        } else {
+          completer.complete('0.0.0.0');
+        }
+      }).catchError((Object e) {
+        completer.completeError(e);
+      });
     } catch (e) {
-      throw Exception(
-          'The address request is abnormal, the parameter:\n Host:${uri.host}\n Path:${uri.path}\n Param:${uri.query} \n\n Error message:\n $e');
+      completer.completeError(e);
     }
-    return result;
+    return completer.future;
   }
 
   /// Network request response format
@@ -51,5 +54,10 @@ class IDKitIp {
         result = '';
     }
     return result;
+  }
+
+  /// Function description of this class.
+  String getDesc() {
+    return "Convenient extension of obtaining user's public network IP address, including IPv4 and IPv6.";
   }
 }

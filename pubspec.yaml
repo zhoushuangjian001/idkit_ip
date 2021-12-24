@@ -1,15 +1,17 @@
 name: idkit_ip
 description: This package is mainly used to obtain the user's public network IP address for convenient expansion, mainly to obtain two public network addresses, IPv4 and IPv6.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/zhoushuangjian001/idkit_ip
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.14.0 <3.0.0'
   flutter: '>=1.17.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  # 网络请求
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
